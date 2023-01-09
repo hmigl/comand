@@ -1,12 +1,11 @@
 SHELL = /bin/sh
 
-NAME := decoder
+NAME := encoder
 OBJDIR := objdir
 
 CFLAGS += -Wall -Wextra -g
 LDLIBS +=
 LDFLAGS +=
-INCLUDE =
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
