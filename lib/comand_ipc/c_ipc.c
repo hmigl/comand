@@ -30,3 +30,14 @@ void *map_block(char *pathname, size_t size) {
 }
 
 int detach_block(void *block) { return shmdt(block); }
+
+int erase_block(char *pathname) {
+  int block_id = get_block(pathname, 0);
+
+  if (block_id == -1) {
+    perror("shmget");
+    return -1;
+  }
+
+  return shmctl(block_id, IPC_RMID, NULL);
+}
