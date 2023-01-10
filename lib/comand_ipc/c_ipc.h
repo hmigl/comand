@@ -15,4 +15,8 @@ struct comand_ipc_data {
   // unsigned long time_to_decompress;
 };
 
+void *map_block(char *pathname, size_t size);
+int detach_block(void *block);
+int erase_block(char *pathname);
+
 #endif // LIB_COMAND_IPC_C_IPC_H_
