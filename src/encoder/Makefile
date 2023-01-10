@@ -3,9 +3,13 @@ SHELL = /bin/sh
 NAME := encoder
 OBJDIR := objdir
 
-CFLAGS += -Wall -Wextra -g
-LDLIBS +=
-LDFLAGS +=
+COMAND_IPC_DIR = ../../lib/comand_ipc
+COMAND_IPC = $(COMAND_IPC_DIR)/libcomand_ipc.a
+
+CFLAGS += $(INCLUDE) -Wall -Wextra -g
+LDLIBS += -lcomand_ipc
+LDFLAGS += -L$(COMAND_IPC_DIR)
+INCLUDE = -I$(COMAND_IPC_DIR)
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
@@ -23,8 +27,11 @@ options:
 	@echo "LDFLAGS       = $(LDFLAGS)"
 	@echo "CC            = $(CC)"
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $@
+$(NAME): $(OBJS) $(COMAND_IPC)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(LDLIBS)
+
+$(COMAND_IPC):
+	$(MAKE) -C $(COMAND_IPC_DIR) --no-print-directory
 
 $(OBJS): | $(OBJDIR)
 
@@ -33,9 +40,11 @@ $(OBJDIR):
 
 clean:
 	$(RM) $(OBJS)
+	$(MAKE) clean -C $(COMAND_IPC_DIR) --no-print-directory
 
 fclean: clean
 	$(RM) $(NAME)
+	$(MAKE) fclean -C $(COMAND_IPC_DIR) --no-print-directory
 
 re: fclean all
 

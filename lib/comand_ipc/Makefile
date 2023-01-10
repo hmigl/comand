@@ -1,4 +1,4 @@
-NAME := comand_ipc.a
+NAME := libcomand_ipc.a
 OBJDIR := objdir
 
 CFLAGS += -Wall -Wextra -Werror
@@ -7,23 +7,23 @@ OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 SRC = $(wildcard *.c)
 
 $(OBJDIR)/%.o: %.c
-	$(COMPILE.c) $(OUTPUT_OPTION) $<
+	@$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 $(OBJS): | $(OBJDIR)
 
 $(OBJDIR):
-	mkdir $@
+	@mkdir $@
 
 clean:
-	$(RM) $(OBJS)
+	@$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
