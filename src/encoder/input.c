@@ -10,17 +10,17 @@ static int args_len(char **argv) {
 }
 
 static char *reduce_args(char **argv) {
-  char *ptr;
-  char *reduced_str = malloc(sizeof(char) * (args_len(argv) + 1));
+  int total_length = args_len(argv);
+  char *reduced_str = malloc(sizeof(char) * (total_length + 1));
 
-  ptr = reduced_str;
-  for (int i = 0; argv[i] != NULL; i++) {
-    int len = strlen(argv[i]);
-    memcpy(ptr, argv[i], len);
-    ptr += len;
+  if (reduced_str == NULL) {
+    perror("malloc");
+    return NULL;
   }
-  *ptr = '\0';
-
+  reduced_str[0] = '\0';
+  for (int i = 0; argv[i] != NULL; i++) {
+    strcat(reduced_str, argv[i]);
+  }
   return reduced_str;
 }
 
@@ -28,7 +28,7 @@ char *merge_input(int argc, char **argv) {
   if (argc == 2) {
     return argv[1];
   } else {
-    return reduce_args(argv + 1);
+    return reduce_args(&argv[1]);
   }
 }
 
