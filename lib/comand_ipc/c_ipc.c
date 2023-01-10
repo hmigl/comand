@@ -28,3 +28,5 @@ void *map_block(char *pathname, size_t size) {
 
   return block_addr;
 }
+
+int detach_block(void *block) { return shmdt(block); }
