@@ -5,10 +5,12 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-// Validation
+// Input
 bool has_valid_input(int argc, char **argv);
+char *merge_input(int argc, char **argv);
 
 #endif // SRC_ENCODER_ENCODER_H_

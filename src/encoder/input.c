@@ -1,19 +1,36 @@
 #include "encoder.h"
 
-// static bool can_read_file(char *filename) {
-//   if (access(filename, R_OK) < 0) {
-//     fprintf(stderr, "'%s': %s\n", filename, strerror(errno));
-//     return false;
-//   }
-//   return true;
-// }
-//
-// static bool check_file_flag(int argc, char **argv) {
-//   if (argc == 3) {
-//     return !strcmp("--file", argv[1]) && can_read_file(argv[2]);
-//   }
-//   return true;
-// }
+static int args_len(char **argv) {
+  int size = 0;
+
+  for (int i = 0; argv[i] != NULL; i++) {
+    size += strlen(argv[i]);
+  }
+  return size;
+}
+
+static char *reduce_args(char **argv) {
+  char *ptr;
+  char *reduced_str = malloc(sizeof(char) * (args_len(argv) + 1));
+
+  ptr = reduced_str;
+  for (int i = 0; argv[i] != NULL; i++) {
+    int len = strlen(argv[i]);
+    memcpy(ptr, argv[i], len);
+    ptr += len;
+  }
+  *ptr = '\0';
+
+  return reduced_str;
+}
+
+char *merge_input(int argc, char **argv) {
+  if (argc == 2) {
+    return argv[1];
+  } else {
+    return reduce_args(argv + 1);
+  }
+}
 
 static bool has_valid_argc(int argc) { return argc >= 2; }
 
