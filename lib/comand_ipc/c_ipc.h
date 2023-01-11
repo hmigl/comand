@@ -11,7 +11,6 @@
 
 typedef struct comand_ipc_data data_t;
 struct comand_ipc_data {
-  size_t total_bytes;
   size_t data_length;
   char data[];
 };
