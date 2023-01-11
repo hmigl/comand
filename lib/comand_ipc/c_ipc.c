@@ -1,14 +1,14 @@
 #include "c_ipc.h"
 
 static int get_block(const char *pathname, int size) {
-  key_t key = ftok(pathname, 'h');
+  key_t key = ftok(pathname, 'H');
 
   if (key == -1) {
     perror("ftok");
     return -1;
   }
 
-  return shmget(key, size, 0666 | IPC_CREAT);
+  return shmget(key, size, IPC_CREAT | 0666);
 }
 
 void *map_block(char *pathname, size_t size) {

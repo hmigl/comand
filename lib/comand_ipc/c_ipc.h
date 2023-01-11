@@ -1,6 +1,9 @@
 #ifndef LIB_COMAND_IPC_C_IPC_H_
 #define LIB_COMAND_IPC_C_IPC_H_
 
+#define PATHNAME "Makefile"
+#define BLOCK_SIZE sizeof(struct comand_ipc_data)
+
 #include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
