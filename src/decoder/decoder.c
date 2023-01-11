@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 int main(void) {
-  data_t *block = map_block(PATHNAME, BLOCK_SIZE);
+  data_t *block = map_block(PATHNAME, 0);
 
   if (block == NULL) {
     fprintf(stderr, "Couldn't get block\n");
