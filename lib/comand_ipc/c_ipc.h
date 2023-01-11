@@ -3,6 +3,7 @@
 
 #define PATHNAME "Makefile"
 #define BLOCK_SIZE sizeof(struct comand_ipc_data)
+#define SIZE 256
 
 #include <errno.h>
 #include <stddef.h>
@@ -12,7 +13,8 @@
 
 typedef struct comand_ipc_data data_t;
 struct comand_ipc_data {
-  char *data;
+  // char *data;
+  char data[SIZE];
   unsigned long total_bytes;
   // unsigned long total_compressed_bytes;
   // unsigned long time_to_decompress;
