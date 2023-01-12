@@ -7,6 +7,9 @@ static void display_usage(void) {
 static void set_block_data(data_t *block, aux_t *aux) {
   strcpy(block->data, aux->compressed_data);
   block->data_length = strlen(aux->compressed_data) + 1;
+  for (int i = 0; i < FREQ_TABLE_SIZE; i++) {
+    strcpy(block->dictionary[i], aux->dictionary[i]);
+  }
 }
 
 static data_t *estabilish_ipc(aux_t *aux) {

@@ -11,6 +11,10 @@ int main(void) {
   }
   printf("%p\n", block->data);
   printf("%s\n", block->data);
+  for (int i = 0; i < FREQ_TABLE_SIZE; i++) {
+    if (strlen(block->dictionary[i]) > 0)
+      printf("%s\n", block->dictionary[i]);
+  }
   detach_block(block);
   return 0;
 }
