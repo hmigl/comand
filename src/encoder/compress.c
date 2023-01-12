@@ -23,9 +23,31 @@ static char *encode(char **dic, const char *data) {
   char *encoded_data = calloc(data_length(dic, data), sizeof(char));
 
   for (int i = 0; data[i] != '\0'; i++) {
-    strcat(encoded_data, dic[(int)data[i]]);
+    strcat((char *)encoded_data, dic[(int)data[i]]);
   }
   return encoded_data;
+}
+
+// TODO: chop down
+static void compress(unsigned char *s) {
+  int size = strlen((const char *)s);
+  int i;
+
+  if (size % 8 != 0) {
+    int rem = 8 - (size % 8);
+    while (rem--) {
+      s[size++] = '0';
+    }
+    s[size] = '\0';
+  }
+  for (i = 0; i < size; i += 8) {
+    unsigned char byte = 0;
+    for (int j = 0; j < 8; j++) {
+      byte = (byte << 1) | (s[i + j] - '0');
+    }
+    s[i / 8] = byte;
+  }
+  s[i / 8] = '\0';
 }
 
 void compress_data(aux_t *aux) {
@@ -37,5 +59,7 @@ void compress_data(aux_t *aux) {
 
   aux->dictionary = alloc_dictionary(FREQ_TABLE_SIZE, tree_height + 1);
   assemble_dictionary(aux->dictionary, aux->huff_tree, "", tree_height + 1);
-  aux->compressed_data = encode(aux->dictionary, data_to_be_compressed);
+  aux->compressed_data =
+      (unsigned char *)encode(aux->dictionary, data_to_be_compressed);
+  compress(aux->compressed_data);
 }

@@ -9,7 +9,7 @@ struct aux {
   int argc;
 
   char **dictionary;
-  char *compressed_data;
+  unsigned char *compressed_data;
   node_t *huff_tree;
 };
 
