@@ -9,10 +9,9 @@ COMAND_IPC = $(COMAND_IPC_DIR)/libcomand_ipc.a
 HUFFMAN_DIR = ../../lib/huffman
 HUFFMAN = $(HUFFMAN_DIR)/libhuff.a
 
-CFLAGS += $(INCLUDE) -Wall -Wextra -g
+CFLAGS += -Wall -Wextra -g
 LDLIBS += -lcomand_ipc -lhuff
 LDFLAGS += -L$(COMAND_IPC_DIR) -L$(HUFFMAN_DIR)
-INCLUDE = -I$(COMAND_IPC_DIR) -I$(HUFFMAN_DIR)
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
