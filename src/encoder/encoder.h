@@ -2,6 +2,7 @@
 #define SRC_ENCODER_ENCODER_H_
 
 #include "c_ipc.h"
+#include "huffman_ds.h"
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
