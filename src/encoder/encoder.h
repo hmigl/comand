@@ -14,4 +14,7 @@
 bool has_valid_input(int argc, char **argv);
 char *merge_input(int argc, char **argv);
 
+// Compress
+void compress_data(int argc, char **argv);
+
 #endif // SRC_ENCODER_ENCODER_H_
