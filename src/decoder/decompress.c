@@ -26,9 +26,11 @@ static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
   int i, j, k = 0;
   node_t *current = huff_tree;
   char *decompressed = calloc(strlen(block->data) * 8 + 1, sizeof(char));
+  size_t compressed_data_length = block->compressed_data_length;
+  block->compressed_data_length = strlen(block->data);
 
   for (i = 0; i < (int)strlen(block->data); i++) {
-    for (j = 0; j < 8 && block->orig_data_length; j++) {
+    for (j = 0; j < 8 && compressed_data_length; j++) {
       if (current) {
         current = traverse_tree(current, block->data[i], 7 - j);
       }
@@ -37,7 +39,7 @@ static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
           decompressed[k++] = current->c;
           current = huff_tree;
         }
-        block->orig_data_length--;
+        compressed_data_length--;
       }
     }
   }
@@ -50,7 +52,6 @@ void decompress(node_t *huff_tree, data_t *block) {
   gettimeofday(&invocation_start, NULL);
   char *decompressed = huffman_coding_decompress(huff_tree, block);
 
-  // block->orig_data_length = strlen(decompressed);
   block->time_to_decompress = get_elapsed_time(invocation_start);
   strcpy(block->data, decompressed);
   free(decompressed);

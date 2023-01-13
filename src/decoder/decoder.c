@@ -11,6 +11,7 @@ int main(void) {
   }
   huff_tree = deserialize_tree(block->serialized_tree, &index);
   decompress(huff_tree, block);
+  block->can_display_statistics = true;
   detach_block(block);
   return 0;
 }
