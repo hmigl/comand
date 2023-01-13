@@ -61,5 +61,6 @@ void compress_data(aux_t *aux) {
   assemble_dictionary(aux->dictionary, aux->huff_tree, "", tree_height + 1);
   aux->compressed_data =
       (unsigned char *)encode(aux->dictionary, data_to_be_compressed);
+  aux->orig_data_length = strlen((char *)aux->compressed_data);
   compress(aux->compressed_data);
 }

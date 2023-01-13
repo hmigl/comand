@@ -8,6 +8,7 @@ struct aux {
   char **argv;
   int argc;
 
+  size_t orig_data_length;
   char **dictionary;
   unsigned char *compressed_data;
   node_t *huff_tree;
