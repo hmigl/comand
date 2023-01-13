@@ -10,10 +10,13 @@
 #include <string.h>
 #include <unistd.h>
 
+#define MAX_NODES 4096
+
 typedef struct data data_t;
 struct data {
   size_t data_length;
   char dictionary[256][256];
+  int serialized_tree[MAX_NODES];
   char data[];
 };
 

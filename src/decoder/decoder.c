@@ -15,6 +15,9 @@ int main(void) {
     if (strlen(block->dictionary[i]) > 0)
       printf("%s\n", block->dictionary[i]);
   }
+  for (int i = 0; i < MAX_NODES; i++) {
+    printf("%c\n", block->serialized_tree[i]);
+  }
   detach_block(block);
   return 0;
 }

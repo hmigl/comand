@@ -5,6 +5,9 @@ static void display_usage(void) {
 }
 
 static void set_block_data(data_t *block, aux_t *aux) {
+  int index = 0;
+
+  serialize_tree(aux->huff_tree, block->serialized_tree, &index);
   strcpy(block->data, (char *)aux->compressed_data);
   block->data_length = strlen((char *)aux->compressed_data) + 1;
   for (int i = 0; i < FREQ_TABLE_SIZE; i++) {

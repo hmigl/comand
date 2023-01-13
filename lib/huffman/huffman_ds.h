@@ -26,4 +26,7 @@ node_t *new_huff_tree(list_t *list);
 int huff_tree_height(node_t *head);
 void assemble_dictionary(char **dic, node_t *head, char *char_code, int col);
 
+void serialize_tree(node_t *root, int *serialized_tree, int *index);
+node_t *deserialize_tree(int *serialized_tree, int *index);
+
 #endif // LIB_HUFFMAN_HUFFMAN_DS_H_

@@ -110,3 +110,28 @@ void assemble_dictionary(char **dic, node_t *head, char *char_code, int col) {
     assemble_dictionary(dic, head->right, right, col);
   }
 }
+
+void serialize_tree(node_t *root, int *serialized_tree, int *index) {
+  if (root != NULL) {
+    serialized_tree[*index] = root->c;
+    (*index)++;
+    serialize_tree(root->left, serialized_tree, index);
+    serialize_tree(root->right, serialized_tree, index);
+  } else {
+    serialized_tree[*index] = -1;
+    (*index)++;
+  }
+}
+
+node_t *deserialize_tree(int *serialized_tree, int *index) {
+  if (serialized_tree[*index] == -1) {
+    (*index)++;
+    return NULL;
+  }
+  struct node *root = (struct node *)malloc(sizeof(struct node));
+  root->c = (unsigned char)serialized_tree[*index];
+  (*index)++;
+  root->left = deserialize_tree(serialized_tree, index);
+  root->right = deserialize_tree(serialized_tree, index);
+  return root;
+}
