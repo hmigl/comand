@@ -21,8 +21,9 @@ static void set_block_data(data_t *block, aux_t *aux) {
   serialize_tree(aux->huff_tree, block->serialized_tree, &index);
   strcpy(block->data, (char *)aux->compressed_data);
   block->can_display_statistics = false;
-  block->compressed_data_length = aux->encoded_data_length;
-  block->data_length = strlen((char *)aux->compressed_data) + 1;
+  block->encoded_data_length = aux->encoded_data_length;
+  block->compressed_data_length = aux->compressed_data_length;
+  block->data_length = aux->data_length;
   for (int i = 0; i < FREQ_TABLE_SIZE; i++) {
     strcpy(block->dictionary[i], aux->dictionary[i]);
   }

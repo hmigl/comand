@@ -29,7 +29,7 @@ static char *encode(char **dic, const char *data) {
 }
 
 // TODO: chop down
-static void compress(unsigned char *s) {
+static int compress(unsigned char *s) {
   int size = strlen((const char *)s);
   int i;
 
@@ -48,12 +48,13 @@ static void compress(unsigned char *s) {
     s[i / 8] = byte;
   }
   s[i / 8] = '\0';
+  return i / 8;
 }
 
 void compress_data(aux_t *aux) {
   char *data_to_be_compressed = merge_input(aux->argc, aux->argv);
   list_t *freq_table = new_freq_table(data_to_be_compressed);
-  // aux->encoded_data_length = strlen(data_to_be_compressed);
+  aux->data_length = strlen(data_to_be_compressed);
 
   aux->huff_tree = new_huff_tree(freq_table);
   int tree_height = huff_tree_height(aux->huff_tree);
@@ -63,5 +64,5 @@ void compress_data(aux_t *aux) {
   aux->compressed_data =
       (unsigned char *)encode(aux->dictionary, data_to_be_compressed);
   aux->encoded_data_length = strlen((char *)aux->compressed_data);
-  compress(aux->compressed_data);
+  aux->compressed_data_length = compress(aux->compressed_data);
 }
