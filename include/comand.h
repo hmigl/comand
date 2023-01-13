@@ -14,6 +14,7 @@
 
 typedef struct data data_t;
 struct data {
+  unsigned int time_to_decompress;
   size_t data_length;
   size_t orig_data_length;
   char dictionary[256][256];

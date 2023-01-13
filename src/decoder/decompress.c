@@ -1,4 +1,13 @@
 #include "decoder.h"
+#include <sys/time.h>
+
+static unsigned int get_elapsed_time(struct timeval event) {
+  struct timeval now;
+
+  gettimeofday(&now, NULL);
+  return (now.tv_sec * 1000 + now.tv_usec / 1000) -
+         (event.tv_sec * 1000 + event.tv_usec / 1000);
+}
 
 static bool is_leaf(node_t *current) {
   return current && current->left == NULL && current->right == NULL;
@@ -32,12 +41,17 @@ static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
       }
     }
   }
+  block->data_length = k;
   return decompressed;
 }
 
 void decompress(node_t *huff_tree, data_t *block) {
+  struct timeval invocation_start;
+  gettimeofday(&invocation_start, NULL);
   char *decompressed = huffman_coding_decompress(huff_tree, block);
 
+  // block->orig_data_length = strlen(decompressed);
+  block->time_to_decompress = get_elapsed_time(invocation_start);
   strcpy(block->data, decompressed);
   free(decompressed);
 }
