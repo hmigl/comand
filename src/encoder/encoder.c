@@ -19,7 +19,7 @@ static void display_received_stats(void) {
 		  BBLU, COLOR_RESET, BYEL, block->data_length, COLOR_RESET);
   printf("%sTotal compressed bytes:%s\n\t%s%ld (%.2f%%) %s\n\n",
 		  BBLU, COLOR_RESET, BYEL, block->compressed_data_length, reduction, COLOR_RESET);
-  printf("%sTime to decompress (ms)%s\n\t%s%d%s\n",
+  printf("%sTime to decompress (ms)%s\n\t%s%.2f%s\n",
 		  BBLU, COLOR_RESET, BYEL,block->time_to_decompress, COLOR_RESET);
   detach_block(block);
 }

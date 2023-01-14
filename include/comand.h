@@ -14,7 +14,7 @@
 
 typedef struct data data_t;
 struct data {
-  unsigned int time_to_decompress;
+  double time_to_decompress;
   size_t data_length;
   size_t encoded_data_length;
   size_t compressed_data_length;
