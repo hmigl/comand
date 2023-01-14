@@ -1,18 +1,26 @@
 #include "encoder.h"
 
+#define BYEL "\e[1;33m"
+#define BBLU "\e[1;34m"
+#define COLOR_RESET "\e[0m"
+
 static void display_received_stats(void) {
   data_t *block = map_block(PATHNAME, 0);
+  float reduction =
+	  1 - ((float)block->compressed_data_length / (float)block->data_length)  * 100;
 
   if (block == NULL) {
     fprintf(stderr, "Couldn't get block\n");
     exit(1);
   }
-  printf("-------------------------------------------------\n");
-  printf("Decompressed data:       \n\n%s\n\n", block->data);
-  printf("Total bytes:             \n\t%ld\n\n", block->data_length);
-  printf("Total compressed bytes:  \n\t%ld\n\n", block->compressed_data_length);
-  printf("Time to decompress (ms)  \n\t%d\n", block->time_to_decompress);
-  printf("-------------------------------------------------\n");
+  printf("\n%sDecompressed data:%s\n\n%s%s%s\n\n",
+		  BBLU, COLOR_RESET, BYEL, block->data, COLOR_RESET);
+  printf("%sTotal bytes:%s\n\t%s%ld%s\n\n",
+		  BBLU, COLOR_RESET, BYEL, block->data_length, COLOR_RESET);
+  printf("%sTotal compressed bytes:%s\n\t%s%ld (%.2f%%) %s\n\n",
+		  BBLU, COLOR_RESET, BYEL, block->compressed_data_length, reduction, COLOR_RESET);
+  printf("%sTime to decompress (ms)%s\n\t%s%d%s\n",
+		  BBLU, COLOR_RESET, BYEL,block->time_to_decompress, COLOR_RESET);
   detach_block(block);
 }
 
