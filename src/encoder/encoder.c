@@ -13,6 +13,7 @@ static void display_received_stats(void) {
   printf("Total compressed bytes:  \n\t%ld\n\n", block->compressed_data_length);
   printf("Time to decompress (ms)  \n\t%d\n", block->time_to_decompress);
   printf("-------------------------------------------------\n");
+  detach_block(block);
 }
 
 static void set_block_data(data_t *block, aux_t *aux) {

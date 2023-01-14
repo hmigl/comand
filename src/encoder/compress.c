@@ -9,6 +9,15 @@ static char **alloc_dictionary(int rows, int cols) {
   return dictionary;
 }
 
+static void free_up_dictionary(char **dictionary) {
+  for (int i = 0; i < FREQ_TABLE_SIZE; i++) {
+    free(dictionary[i]);
+    dictionary[i] = NULL;
+  }
+  free(dictionary);
+  dictionary = NULL;
+}
+
 static int data_length(char **dic, const char *data) {
   int i = -1, len = 0;
 
@@ -30,6 +39,7 @@ static char *encode(char **dic, const char *data) {
 
 static void compress_byte(unsigned char *byte, char *encoded, int *j, int i) {
   unsigned char mask = 1;
+
   if (encoded[i] == '1') {
     mask <<= (*j);
     (*byte) |= mask;
@@ -71,6 +81,7 @@ void compress_data(aux_t *aux) {
   aux->dictionary = alloc_dictionary(FREQ_TABLE_SIZE, tree_height + 1);
   assemble_dictionary(aux->dictionary, aux->huff_tree, "", tree_height + 1);
   aux->encoded_data = encode(aux->dictionary, data_to_be_compressed);
+  free_up_dictionary(aux->dictionary);
 
   aux->encoded_data_length = strlen((char *)aux->encoded_data);
   aux->compressed_data_length =
