@@ -20,7 +20,6 @@ struct data {
   size_t compressed_data_length;
 
   bool can_display_statistics;
-  char dictionary[256][256];
   int serialized_tree[MAX_NODES];
   char data[MAX_NODES];
 };

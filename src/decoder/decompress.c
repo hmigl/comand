@@ -22,21 +22,17 @@ static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
   node_t *current = huff_tree;
   char *decompressed = calloc(1, sizeof(char));
 
-  // for (i = 0; i < block->compressed_data_length; i++) {
-  while (i < (int)block->compressed_data_length) {
-    // for (j = 0; j < 8 && k < block->data_length; j++) {
+  for (i = 0; i < (int)block->compressed_data_length; i++) {
     for (j = 7; j >= 0; j--) {
       if (current) {
         current = traverse_tree(current, block->data[i], j);
       }
       if (is_leaf(current)) {
-        printf("%c", current->c);
         decompressed[k++] = current->c;
         current = huff_tree;
         decompressed = realloc(decompressed, (k + 1) * sizeof(char));
       }
     }
-    i++;
   }
   decompressed[k] = '\0';
   return decompressed;
