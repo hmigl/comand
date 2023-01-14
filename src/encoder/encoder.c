@@ -19,18 +19,17 @@ static void set_block_data(data_t *block, aux_t *aux) {
   int index = 0;
 
   serialize_tree(aux->huff_tree, block->serialized_tree, &index);
-  strcpy(block->data, (char *)aux->compressed_data);
   block->can_display_statistics = false;
   block->encoded_data_length = aux->encoded_data_length;
   block->compressed_data_length = aux->compressed_data_length;
   block->data_length = aux->data_length;
-  for (int i = 0; i < FREQ_TABLE_SIZE; i++) {
-    strcpy(block->dictionary[i], aux->dictionary[i]);
+  for (unsigned int i = 0; i < aux->compressed_data_length; i++) {
+    block->data[i] = aux->compressed_data[i];
   }
 }
 
 static data_t *estabilish_ipc(aux_t *aux) {
-  size_t data_length = strlen((char *)aux->compressed_data);
+  size_t data_length = strlen((char *)aux->encoded_data);
   data_t *block = map_block(PATHNAME, sizeof(data_t) + data_length + 1);
 
   if (block == NULL) {

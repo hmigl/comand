@@ -13,7 +13,8 @@ struct aux {
   unsigned int compressed_data_length;
 
   char **dictionary;
-  unsigned char *compressed_data;
+  char *encoded_data;
+  unsigned char compressed_data[1000000];
   node_t *huff_tree;
 };
 
