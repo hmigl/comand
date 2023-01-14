@@ -22,7 +22,7 @@ struct data {
   bool can_display_statistics;
   char dictionary[256][256];
   int serialized_tree[MAX_NODES];
-  char data[];
+  char data[MAX_NODES];
 };
 
 #endif
