@@ -35,3 +35,44 @@ char *merge_input(int argc, char **argv) {
 static bool has_valid_argc(int argc) { return argc >= 2; }
 
 bool has_valid_input(int argc, char **argv) { return has_valid_argc(argc); }
+
+static void read_into_buffer(FILE *file, char *contents, long size) {
+  int bytes_read = fread(contents, sizeof(char), size, file);
+
+  if (bytes_read != size) {
+    perror("fread");
+    exit(1);
+  }
+  contents[size] = '\0';
+}
+
+static long get_file_size(FILE *file) {
+  fseek(file, 0, SEEK_END);
+  long size = ftell(file);
+  rewind(file);
+  return size;
+}
+
+static FILE *open_file(const char *file_name) {
+  FILE *file = fopen(file_name, "r");
+
+  if (file == NULL) {
+    perror("fopen");
+    exit(1);
+  }
+  return file;
+}
+
+char *file_to_str(const char *file_name) {
+  FILE *file = open_file(file_name);
+  long size = get_file_size(file);
+  char *contents = (char *)malloc(size + 1);
+
+  if (contents == NULL) {
+    perror("malloc");
+    exit(1);
+  }
+  read_into_buffer(file, contents, size);
+  fclose(file);
+  return contents;
+}

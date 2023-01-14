@@ -71,7 +71,12 @@ static unsigned int compress(char *encoded, char *compressed) {
 }
 
 void compress_data(aux_t *aux) {
-  char *data_to_be_compressed = merge_input(aux->argc, aux->argv);
+  char *data_to_be_compressed;
+  if (!strcmp("--file", aux->argv[1]) && aux->argv[2]) {
+    data_to_be_compressed = file_to_str(aux->argv[2]);
+  } else {
+    data_to_be_compressed = merge_input(aux->argc, aux->argv);
+  }
   list_t *freq_table = new_freq_table(data_to_be_compressed);
   aux->data_length = strlen(data_to_be_compressed);
 

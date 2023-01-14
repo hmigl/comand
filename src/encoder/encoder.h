@@ -21,6 +21,7 @@ struct aux {
 // Input
 bool has_valid_input(int argc, char **argv);
 char *merge_input(int argc, char **argv);
+char *file_to_str(const char *file_name);
 
 // Compress
 void compress_data(aux_t *aux);
