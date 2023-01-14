@@ -20,7 +20,7 @@ static node_t *traverse_tree(node_t *current, char byte, int bit_index) {
 static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
   int i = 0, j, k = 0;
   node_t *current = huff_tree;
-  char *decompressed = calloc(1, sizeof(char));
+  char *decompressed = calloc(block->data_length + 1, sizeof(char));
 
   for (i = 0; i < (int)block->compressed_data_length; i++) {
     for (j = 7; j >= 0; j--) {
@@ -30,7 +30,6 @@ static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
       if (is_leaf(current)) {
         decompressed[k++] = current->c;
         current = huff_tree;
-        decompressed = realloc(decompressed, (k + 1) * sizeof(char));
       }
     }
   }
