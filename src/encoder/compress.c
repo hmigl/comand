@@ -28,28 +28,36 @@ static char *encode(char **dic, const char *data) {
   return encoded_data;
 }
 
+static void compress_byte(unsigned char *byte, char *encoded, int *j, int i) {
+  unsigned char mask = 1;
+  if (encoded[i] == '1') {
+    mask <<= (*j);
+    (*byte) |= mask;
+  }
+  (*j)--;
+}
+
+static void add_compressed_byte(char *compressed, int *k, unsigned char byte) {
+  compressed[*k] = byte;
+  (*k)++;
+}
+
 static unsigned int compress(char *encoded, char *compressed) {
   int i, j = 7, k = 0;
-  unsigned char mask, byte = 0;
+  unsigned char byte = 0;
 
   for (i = 0; encoded[i]; i++) {
-    mask = 1;
-    if (encoded[i] == '1') {
-      mask = mask << j;
-      byte = byte | mask;
-    }
-    j--;
+    compress_byte(&byte, encoded, &j, i);
     if (j < 0) {
-      compressed[k] = byte;
-      k++;
+      add_compressed_byte(compressed, &k, byte);
       byte = 0;
       j = 7;
     }
   }
   if (j != 7) {
-    compressed[k] = byte;
+    add_compressed_byte(compressed, &k, byte);
   }
-  return k + 1;
+  return k;
 }
 
 void compress_data(aux_t *aux) {
