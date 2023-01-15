@@ -6,6 +6,8 @@
 
 - [Getting started](#getting-started)
 
+- [Known issues](#known-issues)
+
 - [License](#license)
 
 ---
@@ -19,7 +21,6 @@ This project is composed of two programs: `encoder` and `decoder`. `encoder` rea
 Since it was an one-week challenge, `comand` is a relatively small program:
 
 ```shell
-
 .
 ├── Makefile
 ├── include
@@ -45,7 +46,6 @@ Since it was an one-week challenge, `comand` is a relatively small program:
         ├── encoder.h
         ├── input.c
         └── Makefile
-
 ```
 
 ---
@@ -68,7 +68,6 @@ You can now run `encoder`:
 ./src/encoder/encoder --file file_to_have_its_contents_compressed
 ```
 
-
 After compressing the data, it will send it to `decoder` and start to wait for feedback, so you can run `decoder`:
 
 ```shell
@@ -76,6 +75,20 @@ After compressing the data, it will send it to `decoder` and start to wait for f
 ```
 
 `encoder` will print received stats such as the decompressed data and its total bytes, total of compressd bytes and time used to decompress.
+
+---
+
+## Known issues
+
+`comand` has some limitations, of course. There are two particular problems regarding the input size.
+
+First of all, with a single letter input `decoder` is not capable of decompressing it to its original form. I've chosen not to treat it.
+
+```shell
+./encoder "a" # ./decoder will not decompress it properly
+```
+
+Also, my implementation uses a fixed array size to store the "Huffman tree", due to the difficulty of using pointers inside shared memory (again, this is an one-week challenge). So it means that some enormous input may not work properly.
 
 ---
 
