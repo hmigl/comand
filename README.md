@@ -1,43 +1,84 @@
-# Labs 4º Edição
+# comand - COMpress and ANalyze Data
 
-## Desafio
+## Contents
 
-O desafio consiste no desenvolvimento de uma aplicação de análise e compressão de dados. Essa aplicação utilizará o algoritmo de compressão Huffman e poderá receber múltiplos dados onde, uma vez que comprimido deve ser descomprimido e coletar informações pertinentes para a análise do processo e dado.
+- [Overview](#overview)
 
-Para isso, você criará dois programas: `encoder` e `decoder`. O encoder receberá o dado a ser comprimido e exibirá suas informações vindas do decoder. Já, o decoder descomprimirá o dado e irá enviá-lo ao encoder com suas informações, onde será exibido. Os programas devem se comunicar utilizando *shared memory operations*.
+- [Getting started](#getting-started)
 
-A linguagem C será utilizada para o desenvolvimento e não há bibliotecas externas permitidas.
+- [License](#license)
 
-## É necessário
+---
 
-- Que existam dois programas `encoder` e `decoder` que se comuniquem via memória compartilhada.
-- Que o `encoder` possa receber, no mínimo, múltiplos textos como dado e comprimi-lo. Caso mais de um texto seja enviado, devem ser comprimidos juntos, resultando em apenas um único dado.
-- Que o algoritmo de Huffman seja implementando em sua totalidade e que o processo de compressão e descompressão ocorram utilizando-o.
--  Que o `decoder` possa descomprimir e enviar as seguintes informações ao `encoder`: dado descomprimido, quantidade de bits ou bytes totais, quantidade de bits ou bytes comprimidos e o tempo da operação de descompressão.
-- O `encoder` exibir as informações recebidas pelo `decoder`.
+## Overview
 
-### O que será avaliado
+`comand` uses IPC through shared memory and Huffman coding to compress and decompress data. No third-party libraries are used, only pure C.
 
-- Código bem escrito e limpo.
-- A documentação do seu código.
-- Ferramentas que foram utilizadas e por quê.
-- Sua criatividade e capacidade de lidar com problemas diferentes.
-- Alinhamento do seu projeto com a proposta.
+This project is composed of two programs: `encoder` and `decoder`. `encoder` reads the data, compress it and shares it using a shared memory segment. `decoder` will decompress the compressed data, sending it back to the first program - which will print the received stats.
 
-### O mínimo necessário
+Since it was an one-week challenge, `comand` is a relatively small program:
 
-- README.md com a documentação contendo informações do projeto.
+```shell
 
-### Bônus
+.
+├── Makefile
+├── include
+│   └── comand.h
+├── lib
+│   ├── comand_ipc
+│   │   ├── c_ipc.c
+│   │   ├── c_ipc.h
+│   │   └── Makefile
+│   └── huffman
+│       ├── huffman_ds.c
+│       ├── huffman_ds.h
+│       └── Makefile
+└── src
+    ├── decoder
+    │   ├── decoder.c
+    │   ├── decoder.h
+    │   ├── decompress.c
+    │   └── Makefile
+    └── encoder
+        ├── compress.c
+        ├── encoder.c
+        ├── encoder.h
+        ├── input.c
+        └── Makefile
 
-Os itens a seguir não são obrigatórios, mas são funcionalidades que darão mais valor ao seu desafio.
+```
 
-- Compressão de múltiplos arquivos binários.
-- Criptografia do dado comprimido, utilizando senha fornecida pelo usuário.
-- Verificação de integridade do arquivo comprimido.
-- Opção para escolher mais outro algoritmo de compressão a ser utilizado.
-- Tempo de descompressão (`decoder`) abaixo da média dos candidatos.
-- Cuidados especiais com otimização e padrões de código.
-- Uso de ferramentas externas para planejamento nas etapas de desenvolvimento.
+---
 
-<sub><sup>[Importante](https://xkcd.com/1381/)</sup></sub>
+## Getting started
+
+After cloning this repository, run:
+
+```shell
+make
+```
+
+You can now run `encoder`:
+
+```shell
+./src/encoder/encoder "text to be " "compressed " "!!!!!"
+
+# Alternatively, run it with '--file' option, to compress
+# the contents of a given file
+./src/encoder/encoder --file file_to_have_its_contents_compressed
+```
+
+
+After compressing the data, it will send it to `decoder` and start to wait for feedback, so you can run `decoder`:
+
+```shell
+./src/decoder/decoder
+```
+
+`encoder` will print received stats such as the decompressed data and its total bytes, total of compressd bytes and time used to decompress.
+
+---
+
+## License
+
+`comand` is licensed under the terms of the 'license link'.
