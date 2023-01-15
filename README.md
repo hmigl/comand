@@ -94,4 +94,4 @@ Also, my implementation uses a fixed array size to store the "Huffman tree", due
 
 ## License
 
-`comand` is licensed under the terms of the [GPL License](https://github.com/42sp/42labs-selection-process-v4-hmigl/blob/dev/LICENSE).
+`comand` is licensed under the terms of the [GPL License](https://github.com/hmigl/comand/blob/master/LICENSE).
