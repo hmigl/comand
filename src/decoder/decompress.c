@@ -1,14 +1,6 @@
 #include "decoder.h"
 #include <time.h>
 
-static bool is_leaf(node_t *current) {
-  return current && current->left == NULL && current->right == NULL;
-}
-
-static node_t *traverse_tree(node_t *current, char byte, int bit_index) {
-  return (byte & (1 << bit_index)) ? current->right : current->left;
-}
-
 static unsigned char *huffman_coding_decompress(node_t *huff_tree,
                                                 data_t *block) {
   int i, j, k = 0;
@@ -20,9 +12,9 @@ static unsigned char *huffman_coding_decompress(node_t *huff_tree,
   for (i = 0; i < (int)block->compressed_data_length; i++) {
     for (j = 7; j >= 0 && data_length; j--) {
       if (current) {
-        current = traverse_tree(current, block->data[i], j);
+        current = (block->data[i] & (1 << j)) ? current->right : current->left;
       }
-      if (is_leaf(current)) {
+      if (current && current->left == NULL && current->right == NULL) {
         decompressed[k++] = current->c;
         current = huff_tree;
         data_length--;
