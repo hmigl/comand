@@ -81,4 +81,4 @@ After compressing the data, it will send it to `decoder` and start to wait for f
 
 ## License
 
-`comand` is licensed under the terms of the 'license link'.
+`comand` is licensed under the terms of the [GPL License](https://github.com/42sp/42labs-selection-process-v4-hmigl/blob/dev/LICENSE).
