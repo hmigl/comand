@@ -32,8 +32,8 @@ static char *huffman_coding_decompress(node_t *huff_tree, data_t *block) {
 void decompress(node_t *huff_tree, data_t *block) {
   clock_t invocation_start = clock(), invocation_end;
   char *decompressed = huffman_coding_decompress(huff_tree, block);
-  invocation_end = clock();
 
+  invocation_end = clock();
   block->time_to_decompress =
       (double)(invocation_end - invocation_start) / CLOCKS_PER_SEC * 1000;
   strcpy(block->data, decompressed);
