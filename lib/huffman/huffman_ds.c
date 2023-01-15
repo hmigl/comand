@@ -38,10 +38,10 @@ static list_t *trim_freq_table(unsigned int *freq_table) {
   return list;
 }
 
-list_t *new_freq_table(const char *str) {
+list_t *new_freq_table(const unsigned char *str) {
   unsigned int freq[FREQ_TABLE_SIZE] = {0};
 
-  for (size_t i = 0; i < strlen(str); i++) {
+  for (size_t i = 0; i < strlen((char *)str); i++) {
     freq[(unsigned char)str[i]]++;
   }
   return trim_freq_table(freq);

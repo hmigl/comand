@@ -36,7 +36,7 @@ static bool has_valid_argc(int argc) { return argc >= 2; }
 
 bool has_valid_input(int argc, char **argv) { return has_valid_argc(argc); }
 
-static void read_into_buffer(FILE *file, char *contents, long size) {
+static void read_into_buffer(FILE *file, unsigned char *contents, long size) {
   int bytes_read = fread(contents, sizeof(char), size, file);
 
   if (bytes_read != size) {
@@ -63,10 +63,10 @@ static FILE *open_file(const char *file_name) {
   return file;
 }
 
-char *file_to_str(const char *file_name) {
+unsigned char *file_to_str(const char *file_name) {
   FILE *file = open_file(file_name);
   long size = get_file_size(file);
-  char *contents = (char *)malloc(size + 1);
+  unsigned char *contents = malloc(size + 1);
 
   if (contents == NULL) {
     perror("malloc");

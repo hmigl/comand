@@ -27,7 +27,7 @@ struct list {
  * @param str string - should not be empty
  * @return linked list storing all 'frequency nodes' created from 'str'
  */
-list_t *new_freq_table(const char *str);
+list_t *new_freq_table(const unsigned char *str);
 
 /**
  * @brief Create a binary-tree based on 'Huffman coding'

@@ -21,7 +21,7 @@ struct data {
 
   bool can_display_statistics;
   int serialized_tree[MAX_NODES];
-  char data[MAX_NODES];
+  unsigned char data[MAX_NODES];
 };
 
 #endif

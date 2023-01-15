@@ -18,7 +18,7 @@ static void free_up_dictionary(char **dictionary) {
   dictionary = NULL;
 }
 
-static int data_length(char **dic, const char *data) {
+static int data_length(char **dic, const unsigned char *data) {
   int i = -1, len = 0;
 
   while (data[++i]) {
@@ -28,8 +28,9 @@ static int data_length(char **dic, const char *data) {
   return len;
 }
 
-static char *encode(char **dic, const char *data) {
-  char *encoded_data = calloc(data_length(dic, data), sizeof(char));
+static unsigned char *encode(char **dic, const unsigned char *data) {
+  unsigned char *encoded_data =
+      calloc(data_length(dic, data), sizeof(unsigned char));
 
   for (int i = 0; data[i] != '\0'; i++) {
     strcat((char *)encoded_data, dic[(int)data[i]]);
@@ -37,7 +38,8 @@ static char *encode(char **dic, const char *data) {
   return encoded_data;
 }
 
-static void compress_byte(unsigned char *byte, char *encoded, int *j, int i) {
+static void compress_byte(unsigned char *byte, unsigned char *encoded, int *j,
+                          int i) {
   unsigned char mask = 1;
 
   if (encoded[i] == '1') {
@@ -52,7 +54,7 @@ static void add_compressed_byte(char *compressed, int *k, unsigned char byte) {
   (*k)++;
 }
 
-static unsigned int compress(char *encoded, char *compressed) {
+static unsigned int compress(unsigned char *encoded, char *compressed) {
   int i, j = 7, k = 0;
   unsigned char byte = 0;
 
@@ -71,14 +73,15 @@ static unsigned int compress(char *encoded, char *compressed) {
 }
 
 void compress_data(aux_t *aux) {
-  char *data_to_be_compressed;
+  unsigned char *data_to_be_compressed;
+
   if (!strcmp("--file", aux->argv[1]) && aux->argv[2]) {
     data_to_be_compressed = file_to_str(aux->argv[2]);
   } else {
-    data_to_be_compressed = merge_input(aux->argc, aux->argv);
+    data_to_be_compressed = (unsigned char *)merge_input(aux->argc, aux->argv);
   }
   list_t *freq_table = new_freq_table(data_to_be_compressed);
-  aux->data_length = strlen(data_to_be_compressed);
+  aux->data_length = strlen((char *)data_to_be_compressed);
 
   aux->huff_tree = new_huff_tree(freq_table);
   int tree_height = huff_tree_height(aux->huff_tree);

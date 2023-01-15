@@ -13,7 +13,7 @@ struct aux {
   unsigned int compressed_data_length;
 
   char **dictionary;
-  char *encoded_data;
+  unsigned char *encoded_data;
   unsigned char compressed_data[MAX_NODES];
   node_t *huff_tree;
 };
@@ -45,7 +45,7 @@ char *merge_input(int argc, char **argv);
  * @param file_name existing file path
  * @return string containg the contents of 'file_name'
  */
-char *file_to_str(const char *file_name);
+unsigned char *file_to_str(const char *file_name);
 
 /**
  * @brief Uses bitshifting operations to compress data, writing relevant
