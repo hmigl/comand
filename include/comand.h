@@ -10,7 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MAX_NODES 1000000
+#define MAX_NODES 5000000
 
 typedef struct data data_t;
 struct data {
@@ -21,7 +21,7 @@ struct data {
 
   bool can_display_statistics;
   int serialized_tree[MAX_NODES];
-  unsigned char data[MAX_NODES];
+  unsigned char data[];
 };
 
 #endif
