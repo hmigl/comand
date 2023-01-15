@@ -102,7 +102,7 @@ void assemble_dictionary(char **dic, node_t *head, char *char_code, int col) {
   if (head == NULL)
     return;
   if (head->left == NULL && head->right == NULL) {
-    strcpy(dic[head->c], char_code); // TODO: improve
+    strcpy(dic[head->c], char_code);
   } else {
     copy_char_code(left, right, char_code);
     concat_char_code(left, right);
