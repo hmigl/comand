@@ -4,15 +4,13 @@
 #define BBLU "\e[1;34m"
 #define COLOR_RESET "\e[0m"
 
-static void display_received_stats(void) {
-  data_t *block = map_block(PATHNAME, 0);
-  float reduction =
-	  1 - ((float)block->compressed_data_length / (float)block->data_length)  * 100;
+static void display_received_stats(data_t *block) {
+  while (!block->can_display_statistics)
+    ;
+  size_t comp_data_len = block->compressed_data_length;
+  size_t data_len = block->data_length;
+  float reduction = 1 - ((float)comp_data_len / (float)data_len) * 100;
 
-  if (block == NULL) {
-    fprintf(stderr, "Couldn't get block\n");
-    exit(1);
-  }
   printf("\n%sDecompressed data:%s\n\n%s%s%s\n\n",
 		  BBLU, COLOR_RESET, BYEL, block->data, COLOR_RESET);
   printf("%sTotal bytes:%s\n\t%s%ld%s\n\n",
@@ -20,8 +18,7 @@ static void display_received_stats(void) {
   printf("%sTotal compressed bytes:%s\n\t%s%ld (%.2f%%) %s\n\n",
 		  BBLU, COLOR_RESET, BYEL, block->compressed_data_length, reduction, COLOR_RESET);
   printf("%sTime to decompress (ms)%s\n\t%s%.2f%s\n",
-		  BBLU, COLOR_RESET, BYEL,block->time_to_decompress, COLOR_RESET);
-  detach_block(block);
+		  BBLU, COLOR_RESET, BYEL, block->time_to_decompress, COLOR_RESET);
 }
 
 static void set_block_data(data_t *block, aux_t *aux) {
@@ -63,9 +60,7 @@ int main(int argc, char **argv) {
   }
   compress_data(&aux);
   block = estabilish_ipc(&aux);
-  while (!block->can_display_statistics)
-    ;
-  display_received_stats();
+  display_received_stats(block);
   detach_block(block);
   erase_block(PATHNAME);
   return 0;
