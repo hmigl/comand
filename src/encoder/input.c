@@ -32,9 +32,7 @@ char *merge_input(int argc, char **argv) {
   }
 }
 
-static bool has_valid_argc(int argc) { return argc >= 2; }
-
-bool has_valid_input(int argc, char **argv) { return has_valid_argc(argc); }
+bool has_valid_input(int argc) { return argc >= 2; }
 
 static void read_into_buffer(FILE *file, unsigned char *contents, long size) {
   int bytes_read = fread(contents, sizeof(char), size, file);

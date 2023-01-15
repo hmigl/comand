@@ -25,7 +25,7 @@ struct aux {
  * @param argv argument vector
  * @return true if no issues were found. Returns false otherwise
  */
-bool has_valid_input(int argc, char **argv);
+bool has_valid_input(int argc);
 
 /**
  * @brief If 'argc' is greater than two, it will concat all arguments into a

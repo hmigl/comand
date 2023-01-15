@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
   data_t *block;
   aux_t aux = {.argc = argc, .argv = argv};
 
-  if (!has_valid_input(argc, argv)) {
+  if (!has_valid_input(argc)) {
     display_usage();
     return 1;
   }
