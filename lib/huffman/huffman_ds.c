@@ -86,28 +86,25 @@ node_t *new_huff_tree(list_t *list) {
   return list->head;
 }
 
-static void copy_char_code(char *left, char *right, char *char_code) {
+static void handle_internal_node(char **dic, node_t *head, char *char_code,
+                                 int col) {
+  char left[col], right[col];
+
   strcpy(left, char_code);
   strcpy(right, char_code);
-}
-
-static void concat_char_code(char *left, char *right) {
   strcat(left, "0");
   strcat(right, "1");
+  assemble_dictionary(dic, head->left, left, col);
+  assemble_dictionary(dic, head->right, right, col);
 }
 
 void assemble_dictionary(char **dic, node_t *head, char *char_code, int col) {
-  char left[col], right[col];
-
   if (head == NULL)
     return;
   if (head->left == NULL && head->right == NULL) {
     strcpy(dic[head->c], char_code);
   } else {
-    copy_char_code(left, right, char_code);
-    concat_char_code(left, right);
-    assemble_dictionary(dic, head->left, left, col);
-    assemble_dictionary(dic, head->right, right, col);
+    handle_internal_node(dic, head, char_code, col);
   }
 }
 
@@ -128,7 +125,7 @@ node_t *deserialize_tree(int *serialized_tree, int *index) {
     (*index)++;
     return NULL;
   }
-  struct node *root = (struct node *)malloc(sizeof(struct node));
+  node_t *root = malloc(sizeof(node_t));
   root->c = (unsigned char)serialized_tree[*index];
   (*index)++;
   root->left = deserialize_tree(serialized_tree, index);
